@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Keyframe Animations</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            font-family: arial, verdana, sans-serif;
+            font-size: smaller;
+        }
+        
+        #table {
+            width: 340px;
+            height: 200px;
+            margin-bottom: 50px;
+            border-radius: 85px;
+            background: green;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            font-size: 4.25rem;
+        }
+        
+        #table span {
+            position: block;
+            text-align: center;
+            position: absolute;
+        }
+        
+        #table.animate {
+            background: blue;
+        }
+        
+        @keyframes tablemovement {
+            0% {
+                left: 0px;
+                top: 0px;
+                width: 340px;
+                height: 200px;
+                background-color: yellow;
+                animation-timing-function: ease-in;
+            }
+            33% {
+                left: 100px;
+                top: 100px;
+                width: 170px;
+                height: 100px;
+                background-color: orange;
+                font-size: 2.75rem;
+            }
+            66% {
+                left: 200px;
+                top: 200px;
+                width: 85px;
+                height: 50px;
+                background-color: red;
+                font-size: 1.25rem;
+            }
+            100% {
+                left: 300px;
+                top: 400px;
+                width: 0px;
+                height: 0px;
+                background-color: purple;
+                animation-timing-function: ease-out;
+                font-size: 0rem;
+            }
+        }
+        
+        #table.animate {
+            animation-name: tablemovement;
+            animation-duration: 10s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: 2;
+            animation-direction: normal;
+        }
+    </style>
+
+    <script>
+        // Declare global variables.
+        var table, table, button, messageLabel;
+
+
+        // Page initialization - handle table animation events.
+        function init() {
+
+            // Initialize global variables.
+            table = document.getElementById("table");
+            button = document.getElementById("button");
+            messageLabel = document.getElementById("messageLabel");
+
+            // Handle the event that occurs when the table animation starts.
+            table.addEventListener("MSAnimationStart", function(e) {
+                table.classList.add("animate");
+                messageLabel.innerHTML += "Animation <b>" + e.animationName + "</b> started at " + new Date() + ".<br>";
+            }, false);
+
+            // Handle the event that occurs for each iteration.
+            table.addEventListener("MSAnimationIteration", function(e) {
+                messageLabel.innerHTML += "Animation <b>" + e.animationName + "</b> iteration completed, elapsed time " + e.elapsedTime + ".<br>";
+            }, false);
+
+            // Handle the event that occurs when the table animation ends.
+            table.addEventListener("MSAnimationEnd", function(e) {
+                button.disabled = false;
+                table.classList.remove("animate");
+                table.classList.remove("animate");
+                messageLabel.innerHTML += "Animation <b>" + e.animationName + "</b> ended, elapsed time " + e.elapsedTime + " seconds.<br>";
+            }, false);
+        }
+
+
+        // Start the table animation.
+        function startAnimation() {
+            button.disabled = true;
+            table.classList.add("animate");
+        }
+    </script>
+
+</head>
+
+<body onload="init()">
+    <button id="button" onclick="startAnimation()">Start Animation</button>
+    <div id="messageLabel"></div>
+    <div id="table"><span>ANIME</span></div>
+</body>
+
+</html>
